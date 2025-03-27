@@ -80,9 +80,9 @@ public class MyLinkedList<E> {
         if (size == 0) return "[]";
         StringBuilder str = new StringBuilder("[");
         Node tmp = first;
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             str.append(tmp.item);
-            if(i == size - 1) break;
+            if (i == size - 1) break;
             str.append(", ");
             tmp = tmp.next;
         }
@@ -195,7 +195,7 @@ public class MyLinkedList<E> {
     }
 
     private void checkIndex(int index) {
-        if (index < 0 || size < index){
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
     }
@@ -230,9 +230,9 @@ public class MyLinkedList<E> {
     }
 
     public void sort(Comparator<E> cmp) {
-       if(size < 2) return;
-       Node[] arr = new Node[size];
-       arr[0] = first;
+        if (size < 2) return;
+        Node[] arr = new Node[size];
+        arr[0] = first;
         for (int i = 1; i < size; i++) {
             arr[i] = arr[i - 1].next;
         }

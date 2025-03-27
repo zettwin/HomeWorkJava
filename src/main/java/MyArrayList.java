@@ -3,23 +3,21 @@ import java.util.Comparator;
 
 public class MyArrayList<E> {
 
+    private final int DEFAULT_CAPACITY = 10;
+
     private int size;
 
     private Object[] elements;
 
     public MyArrayList() {
-        size = 0;
-        elements = new Object[10];
+        elements = new Object[DEFAULT_CAPACITY];
     }
 
     public MyArrayList(int capacity) {
-        if (capacity > 0){
-            elements = new Object[capacity];
-        } else if (capacity == 0) {
-            elements = new Object[0];
-        }else{
+        if (capacity < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + capacity);
         }
+        elements = new Object[capacity];
 
     }
 
@@ -63,26 +61,42 @@ public class MyArrayList<E> {
         }
     }
 
-    private E elementData(int index) {return (E) elements[index];}
-    private E elementCast(Object o) {return (E) o;}
-    private void extend(){
+    @SuppressWarnings("unchecked")
+    private E elementData(int index) {
+        return (E) elements[index];
+    }
+
+    @SuppressWarnings("unchecked")
+    private E elementCast(Object o) {
+        return (E) o;
+    }
+
+    private void extend() {
         if (elements.length == 0) {
             elements = new Object[10];
             return;
         }
         Object[] temp = new Object[size * 2];
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             temp[i] = elements[i];
         }
         elements = temp;
     }
+
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
     public void add(E e) {
         size++;
         if (size >= elements.length) extend();
-        elements[size-1] = e;
+        elements[size - 1] = e;
     }
+
     public void add(int index, E e) {
-        if(index < 0 || index > size) throw new IndexOutOfBoundsException();
+        checkIndex(index);
         size++;
         if (size >= elements.length) extend();
         Object buffer1;
@@ -94,16 +108,17 @@ public class MyArrayList<E> {
         }
 
     }
+
     public E get(int index) {
-        if(index < 0 || index > size) throw new IndexOutOfBoundsException();
+        checkIndex(index);
         return elementData(index);
     }
 
     public E remove(int index) {
-        if(index < 0 || index > size) throw new IndexOutOfBoundsException();
+        checkIndex(index);
         E rem = elementData(index);
         Object[] temp = new Object[elements.length];
-        for(int i = 0, j = 0; i < size; i++, j++){
+        for (int i = 0, j = 0; i < size; i++, j++) {
             if (i == index) j++;
             temp[i] = elements[j];
         }
@@ -114,24 +129,25 @@ public class MyArrayList<E> {
 
     public void clear() {
         size = 0;
-        elements = new Object[10];
+        elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public int length() {
+    public int size() {
         return size;
     }
 
     public void sort(Comparator<E> c) {
-        if (size < 2) return;
-        this.mergeSort(elements,0, size -1, c);
+        if (size > 1) {
+            this.mergeSort(elements, 0, size - 1, c);
+        }
     }
 
     public String toString() {
         if (size == 0) return "[]";
         StringBuilder str = new StringBuilder("[");
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             str.append(elements[i]);
-            if(i == size - 1) break;
+            if (i == size - 1) break;
             str.append(", ");
         }
         str.append("]");

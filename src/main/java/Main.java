@@ -1,3 +1,4 @@
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +13,7 @@ public class Main {
         lList.add("Stronger");
 
         System.out.println(lList); // [Work it, Make it, Do it, Makes us, Harder, Better, Faster, Stronger]
-        lList.sort(new MyComparator());
+        lList.sort(Comparator.naturalOrder());
         System.out.println(lList); // [Better, Do it, Faster, Harder, Make it, Makes us, Stronger, Work it]
 
         MyArrayList<String> aList = new MyArrayList<>();
@@ -24,9 +25,8 @@ public class Main {
         aList.add("Better");
         aList.add("Faster");
         aList.add("Stronger");
-
         System.out.println(aList); // [Work it, Make it, Do it, Makes us, Harder, Better, Faster, Stronger]
-        aList.sort(new MyComparator());
+        aList.sort(Comparator.naturalOrder());
         System.out.println(aList); // [Better, Do it, Faster, Harder, Make it, Makes us, Stronger, Work it]
     }
 }
